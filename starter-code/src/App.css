@@ -8,7 +8,7 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 20vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19,14 +19,4 @@
 
 .App-link {
   color: #09d3ac;
-}
-
-.body {
-  height: 80vh;
-  display: flex;
-  justify-content: center;
-}
-
-.body > form > input {
-  margin: 30px;
 }
