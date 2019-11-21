@@ -21,17 +21,17 @@ class App extends React.Component {
     allGenres: genres.genres,
     genreNames: []
   }
-  componentDidMount(){ //on load 
+  componentWillMount(){ //on load 
     this.getGenreNames()
   }
   
   getGenreNames = () => { //get the json file and make a new array with just name 
-    let genreNames = []
+    let genreNamesNew = []
     this.state.allGenres.map((eachGenre,i) => {
-      genreNames.push(eachGenre.name)
+      genreNamesNew.push(eachGenre.name)
     })
     this.setState({
-      genreNames
+      genreNames: genreNamesNew
     })
   }
 
@@ -60,9 +60,9 @@ class App extends React.Component {
 
 
 
-      axios.get(`https://listen-api.listennotes.com/api/v2/search?q=star%20wars&sort_by_date=0&type=episode&offset=${this.state.offset}&len_min=${this.state.min}&len_max=${this.state.max}&genre_ids=68%2C82&published_before=1390190241000&published_after=0&only_in=title%2Cdescription&language=English&safe_mode=1`, {headers: {
+      axios.get('https://listen-api.listennotes.com/api/v2/genres', {headers: {
         'X-ListenAPI-Key': 'f92e4a4b6c304ce4b3710775385e3efb'
-      }}).then(res=>{
+        }}).then(res=>{
 
         console.log(res)
       
@@ -152,9 +152,116 @@ class App extends React.Component {
           <input type="number" value={this.commuteTime} onChange={this.setCommuteTime}/>
           <hr />
           <label>Pick a Genre</label>
-          <input type="number" value={this.commuteTime} onChange={this.setGenre}/>
-          <br />
-          <br />
+          <select name="genre">
+          <option value="vr&ar">VR & AR</option>
+          <option value="webdesign">Web Design</option> 
+          <option value="golf">Golf</option>  
+          <option value="englishlearning">English Learning</option>
+          <option value="programming">Programming</option>
+          <option value="programming">Personal Finance</option> 
+          <option value="programming">Parenting</option>  
+          <option value="programming">LGBTQ</option>  
+          <option value="programming">SEO</option> 
+          <option value="programming">American History</option>  
+          <option value="programming">Venture Capital</option>    
+          <option value="programming">Movie</option>  
+          <option value="programming">Chinese History</option>    
+          <option value="programming">Locally Focused</option>  
+          <option value="programming">San Francisco Bay Area</option>   
+          <option value="programming">Denver</option>   
+          <option value="programming">Startup</option>  
+          <option value="programming">NFL</option>    
+          <option value="programming">Harry Potter</option> 
+          <option value="programming">Game of Thrones</option>  
+          <option value="programming">Storytelling</option> 
+          <option value="programming">YouTube</option>  
+          <option value="programming">Other Games</option>   
+          <option value="programming">Automotive</option>   
+          <option value="programming">Video Games</option>   
+          <option value="programming">Hobbies</option>    
+          <option value="programming">Aviation</option>  
+          <option value="programming">United States</option>    
+          <option value="programming">China</option>  
+          <option value="programming">Star Wars</option>    
+          <option value="programming">AI & Data Science</option>    
+          <option value="programming">Podcasts</option>  
+          <option value="programming">TV & Film</option>  
+          <option value="programming">Hinduism</option>    
+          <option value="programming">Christianity</option>  
+          <option value="programming">Other</option>    
+          <option value="programming">Judaism</option>  
+          <option value="programming">Buddhism</option>    
+          <option value="programming">Islam</option>    
+          <option value="programming">Spirituality</option>  
+          <option value="programming">Religion & Spirituality</option>      
+          <option value="programming">Sports & Recreation</option>
+          <option value="programming">Professional</option> 
+          <option value="programming">Outdoor</option>  
+          <option value="programming">College & High School</option> 
+          <option value="programming">Amateur</option> 
+          <option value="programming">Games & Hobbies</option> 
+          <option value="programming">Health</option> 
+          <option value="programming">Fitness & Nutrition</option> 
+          <option value="programming">Self-Help</option>  
+          <option value="programming">Alternative Health</option>  
+          <option value="programming">Sexuality</option>  
+          <option value="programming">Business</option>  
+          <option value="programming">Careers</option>  
+          <option value="programming">Business News</option>  
+          <option value="programming">Shopping</option>
+          <option value="programming">Management & Marketing</option>
+          <option value="programming">Investing</option>
+          <option value="programming">News & Politics</option>
+          <option value="programming">Arts</option>
+          <option value="programming">Performing Arts</option>
+          <option value="programming">Food</option>
+          <option value="programming">Visual Arts</option>
+          <option value="programming">Literature</option> 
+          <option value="programming">Design</option>
+          <option value="programming">Fashion & Beauty</option>
+          <option value="programming">Science & Medicine</option>
+          <option value="programming">Social Sciences</option>
+          <option value="programming">Medicine</option>
+          <option value="programming">Natural Sciences</option>
+          <option value="programming">Education</option>
+          <option value="programming">Educational Technology</option>
+          <option value="programming">Higher Education</option>
+          <option value="programming">K-12</option> 
+          <option value="programming">Training</option> 
+          <option value="programming">Language Courses</option> 
+          <option value="programming">Government & Organizations</option> 
+          <option value="programming">Local</option> 
+          <option value="programming">Crypto & Blockchain</option>
+          <option value="programming">True Crime</option>
+          <option value="programming">Non-Profit</option>
+          <option value="programming">Regional</option>
+          <option value="programming">Regional</option>
+            National
+            Society & Culture
+            Places & Travel
+            Personal Journals
+            Philosophy
+            Software How-To
+            Podcasting
+            Gadgets
+            Tech News
+            Kids & Family
+            Comedy
+            Music
+            New York
+            Star Trek
+            Apple
+            History
+            NBA
+            Technology
+            Audio Drama
+            Fiction
+            Sales
+          <option value="volvo">Volvo</option>
+          <option value="saab">Saab</option>
+          <option value="fiat">Fiat</option>
+          <option value="audi">Audi</option>
+          </select>
           <button type="submit">Submit</button>
         </form>
         
