@@ -6,9 +6,9 @@
 
 .App-header {
   background-color: #282c34;
-  /* background-image: url("https://i.redd.it/05h3fy58p88y.jpg");
+  /* background-image: url("https://i.redd.it/05h3fy58p88y.jpg"); */
   background-repeat: no-repeat;
-  background-size: cover; */
+  background-size: cover;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -26,4 +26,8 @@
 
 form {
   padding: 50px;
+}
+
+li {
+  list-style-type: none;
 }

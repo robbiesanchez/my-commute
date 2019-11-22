@@ -22,6 +22,8 @@ class App extends React.Component {
     genrePods: [],
     genrePodIds: [],
     genrePodNames: [],
+    genrePodPics: [],
+    genrePodLinks: []
   }
   componentWillMount(){ //on load 
     this.getGenreIds()
@@ -93,6 +95,25 @@ class App extends React.Component {
 
 
     getSearchedGenreNames = () => {
+      console.log(this.state.genrePods)
+      let copy = this.state.genrePods.map(each=>
+        each.title
+        // console.log(each.id)
+        // eachId.id
+        // this.setState({
+        //     genrePodIds2: eachId.id
+        //   }
+        // )
+      )
+      
+      this.setState({
+        genrePodNames: copy
+      },()=>{
+        console.log(copy)
+      })
+    }
+
+    getSearchedGenrePics = () => {
       console.log(this.state.genrePods)
       let copy = this.state.genrePods.map(each=>
         each.title

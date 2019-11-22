@@ -1,22 +1,28 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import "./App.css"
 
 export default class Podcasts extends Component {
     
     constructor(props) {
         super(props) 
         this.state = {
-            podcastsNames: [props.podcastNamesProp],
+            podcastsNames: props.podcastNamesProp,
             commuteTime: 0,
             commuteSeconds: 0,
         }
     }
 
     showPodcastNames = () => {
-        return this.state.podcastsNames.map(eachName => {
-                return(<li>
-                    eachName
-                </li>)
-        } )
+        console.log("Showing podcasts")
+        console.log(this.state.podcastsNames)
+        return (this.state.podcastsNames.map((eachName,i) => {
+            console.log(eachName)
+                return(
+                    <li key={i}>
+                        {eachName}
+                    </li>
+                )
+                 } ))
         
     }
 
@@ -29,18 +35,21 @@ export default class Podcasts extends Component {
             console.log(this.state)})
     }
 
+
     
     render() {
         return (
             <div>
-            <div>
-            {this.showPodcastsNames}
-            </div>
-            
+
+<ul>
+
+            {this.showPodcastNames()}
+</ul>
+
             <h3>Want Commute friendly episodes?</h3>
             <hr />
             <form>
-            <label>Daily Commute Time in Minutes (both ways) </label>
+            <label>Daily Commute Time in Minutes:  </label>
             <input type="number" value={this.commuteTime} onChange={this.setCommuteTime}/>
             <button type="submit" >Submit</button>
             
