@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import "./App.css"
+import "./App.css";
+import {Link} from "react-router-dom";
 
 export default class Podcasts extends Component {
     
@@ -7,10 +8,13 @@ export default class Podcasts extends Component {
         super(props) 
         this.state = {
             podcastsNames: props.podcastNamesProp,
+            podcastPics: props.podcastPicsProp,
             commuteTime: 0,
             commuteSeconds: 0,
+            // podcasts: props.podcastsProp
         }
     }
+
 
     showPodcastNames = () => {
         console.log("Showing podcasts")
@@ -19,12 +23,24 @@ export default class Podcasts extends Component {
             console.log(eachName)
                 return(
                     <li key={i}>
-                        {eachName}
+                    <Link to="/podcacts/:id">{eachName}</Link>
                     </li>
                 )
                  } ))
-        
     }
+
+    // showPodcastPics = () => {
+    //     console.log("Showing podcasts")
+    //     console.log(this.state.podcastPics)
+    //     return (this.state.podcastPics.map((eachPic,i) => {
+    //         console.log(eachPic)
+    //             return(
+    //                 <li key={i}>
+    //                     {eachPic}
+    //                 </li>
+    //             )
+    //              } ))
+    // }
 
     setCommuteTime = (e) => {
         e.preventDefault();
@@ -40,16 +56,16 @@ export default class Podcasts extends Component {
     render() {
         return (
             <div>
-
-<ul>
-
+            <h3>Top Rated Podcasts</h3>
+            <ul>
             {this.showPodcastNames()}
-</ul>
-
-            <h3>Want Commute friendly episodes?</h3>
+            {/* {this.showPodcastPics()} */}
+            </ul>
             <hr />
             <form>
-            <label>Daily Commute Time in Minutes:  </label>
+            <h5>Want Commute friendly episodes?</h5>
+            <br />
+            <h5>Daily Commute Time in Minutes:</h5>
             <input type="number" value={this.commuteTime} onChange={this.setCommuteTime}/>
             <button type="submit" >Submit</button>
             

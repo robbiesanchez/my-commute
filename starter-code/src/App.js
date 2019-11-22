@@ -71,7 +71,7 @@ class App extends React.Component {
           })
           this.getSearchedGenreIds()
           this.getSearchedGenreNames()
-
+          this.getSearchedGenrePics()
         console.log(res)
       }).catch(err=>console.error(err))
     }
@@ -116,7 +116,8 @@ class App extends React.Component {
     getSearchedGenrePics = () => {
       console.log(this.state.genrePods)
       let copy = this.state.genrePods.map(each=>
-        each.title
+        each.image
+       
         // console.log(each.id)
         // eachId.id
         // this.setState({
@@ -126,7 +127,7 @@ class App extends React.Component {
       )
       
       this.setState({
-        genrePodNames: copy
+        genrePodPics: copy
       },()=>{
         console.log(copy)
       })
@@ -190,7 +191,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-        <Link className="link" to=""><h3>My Commute Pod</h3></Link>
+        <Link className="link" to=""><h3>My Commute Pods</h3></Link>
         {this.kanyeQuote()}
         </header>
         <div>
@@ -198,6 +199,7 @@ class App extends React.Component {
           
           <div className="form-group">
           <label for="exampleFormControlSelect1">Pick a Genre</label>
+          <br />
           <select id="exampleFormControlSelect1" className="form-control" name="genre" onChange={this.setGenre}>
           <option value="139" selected="true">VR & AR</option>
           <option value="140">Web Design</option> 
@@ -314,6 +316,8 @@ class App extends React.Component {
       <Podcasts
       {...props}
        podcastNamesProp = {this.state.genrePodNames}
+       podcastPicsProp = {this.state.genrePodPics}
+      //  podcastsProp = {this.state.genrePods}
       
       /> } />
 
