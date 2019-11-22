@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/my-commute/precache-manifest.77fcad30aa965353f9ca3bf8d23fb63d.js"
+  "/my-commute/precache-manifest.9870909441e449531e564b2f98052952.js"
 );
 
 self.addEventListener('message', (event) => {
