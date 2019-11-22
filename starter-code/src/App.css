@@ -19,6 +19,11 @@
   min-height: 20px;
 }
 
+.link {
+  text-decoration: none;
+  color: white;
+}
+
 form {
   padding: 50px;
 }

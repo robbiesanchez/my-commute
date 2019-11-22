@@ -1,43 +1,39 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 import genres from "./genres.json";
+// import bootstrap from 'bootstrap';
+import {Link, Route, Switch} from "react-router-dom";
+import Podcasts from "./Podcasts"
 
-
-console.log(genres.genres)
 
 class App extends React.Component {
   
   
   state = {
     quote: null,
-    commuteTime: 0,
     podcast: "",
     max:1,
     min:0,
-    commuteSeconds: 0,
     offset: 0,
     allGenres: genres.genres,
-    genreNames: []
+    allGenreIds: [],
+    genreId: 0,
+    genrePods: [],
+    genrePodIds: [],
+    genrePodNames: [],
   }
   componentWillMount(){ //on load 
-    this.getGenreNames()
+    this.getGenreIds()
   }
   
-  getGenreNames = () => { //get the json file and make a new array with just name 
-    let genreNamesNew = []
+  getGenreIds = () => { //get the json file and make a new array with just name 
+    let genreIdsNew = []
     this.state.allGenres.map((eachGenre,i) => {
-      genreNamesNew.push(eachGenre.name)
+      genreIdsNew.push(eachGenre.id)
     })
     this.setState({
-      genreNames: genreNamesNew
-    })
-  }
-
-  showGenreNames = () => {  //create a bunch of divs with each name 
-    return this.state.genreNames.map(eachName=>{
-      return <div>{eachName}</div>
+      allGenreIds: genreIdsNew
     })
   }
 
@@ -57,57 +53,88 @@ class App extends React.Component {
       this.setState({
           quote: randomQuote.data.quote
     });
+  })    
+  
+  }
 
 
-
-      axios.get('https://listen-api.listennotes.com/api/v2/genres', {headers: {
+  
+  getGenre = () => {
+    axios.get(`https://listen-api.listennotes.com/api/v2/best_podcasts?genre_id=${this.state.genreId}&page=1&region=us&safe_mode=0`, {headers: {
         'X-ListenAPI-Key': 'f92e4a4b6c304ce4b3710775385e3efb'
         }}).then(res=>{
 
+          this.setState({
+            genrePods: res.data.podcasts
+          })
+          this.getSearchedGenreIds()
+          this.getSearchedGenreNames()
+
         console.log(res)
-      
       }).catch(err=>console.error(err))
-    
-    })
+    }
 
-
-
-
-    // axios.get("https://listen-api.listennotes.com/api/v2/genres/key=f92e4a4b6c304ce4b3710775385e3ef").then(randomPod=>{
-    //   console.log(randomPod)
-    //   this.setState({
-    //       podcast: randomPod.data
-    // });
-    // })
-
-
-    // var instance = axios.create({
-    //   baseURL: 'https://listen-api.listennotes.com/api/v2/search?q=star%20wars&sort_by_date=0&type=episode&offset=0&len_min=10&len_max=30&genre_ids=68%2C82&published_before=1390190241000&published_after=0&only_in=title%2Cdescription&language=English&safe_mode=1',
-    //   headers: {'X-ListenAPI-Key': 'f92e4a4b6c304ce4b3710775385e3ef'}
-    // });
-
-    // console.log(instance)
-
-  }
-
-
-  setCommuteTime = (e) => {
-      e.preventDefault();
-
+    getSearchedGenreIds = () => {
+      console.log(this.state.genrePods)
+      let copy = this.state.genrePods.map(each=>
+        each.id
+        // console.log(each.id)
+        // eachId.id
+        // this.setState({
+        //     genrePodIds2: eachId.id
+        //   }
+        // )
+      )
+      
       this.setState({
-          commuteTime: e.target.value
-      }, () => {
-          console.log(this.state)})
-  }
+        genrePodIds: copy
+      })
+    }
+
+
+    getSearchedGenreNames = () => {
+      console.log(this.state.genrePods)
+      let copy = this.state.genrePods.map(each=>
+        each.title
+        // console.log(each.id)
+        // eachId.id
+        // this.setState({
+        //     genrePodIds2: eachId.id
+        //   }
+        // )
+      )
+      
+      this.setState({
+        genrePodNames: copy
+      },()=>{
+        console.log(copy)
+      })
+    }
+
+
 
   setGenre = (e) => {
     e.preventDefault();
 
     this.setState({
-        commuteTime: e.target.value
+        genreId: e.target.value,
     }, () => {
-        console.log(this.state)})
+      this.getGenre()
+    }
+      )
+
+    
 }
+
+// setSearchTerms = () => {
+
+//   let searchValue = "yo this is a search"
+
+//   let newSearchValue = encodeURIComponent(searchValue)
+
+//   console.log(newSearchValue)
+
+// }
 
 
 
@@ -142,130 +169,139 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-        <h3>My Commute Pod</h3>
+        <Link className="link" to=""><h3>My Commute Pod</h3></Link>
         {this.kanyeQuote()}
-        {this.showGenreNames()}
         </header>
         <div>
         <form onSubmit={this.showWeeklyCommuteTimeInSeconds} >
-          <label>Daily Commute Time in Minutes (both ways) </label>
-          <input type="number" value={this.commuteTime} onChange={this.setCommuteTime}/>
-          <hr />
-          <label>Pick a Genre</label>
-          <select name="genre">
-          <option value="vr&ar">VR & AR</option>
-          <option value="webdesign">Web Design</option> 
-          <option value="golf">Golf</option>  
-          <option value="englishlearning">English Learning</option>
-          <option value="programming">Programming</option>
-          <option value="programming">Personal Finance</option> 
-          <option value="programming">Parenting</option>  
-          <option value="programming">LGBTQ</option>  
-          <option value="programming">SEO</option> 
-          <option value="programming">American History</option>  
-          <option value="programming">Venture Capital</option>    
-          <option value="programming">Movie</option>  
-          <option value="programming">Chinese History</option>    
-          <option value="programming">Locally Focused</option>  
-          <option value="programming">San Francisco Bay Area</option>   
-          <option value="programming">Denver</option>   
-          <option value="programming">Startup</option>  
-          <option value="programming">NFL</option>    
-          <option value="programming">Harry Potter</option> 
-          <option value="programming">Game of Thrones</option>  
-          <option value="programming">Storytelling</option> 
-          <option value="programming">YouTube</option>  
-          <option value="programming">Other Games</option>   
-          <option value="programming">Automotive</option>   
-          <option value="programming">Video Games</option>   
-          <option value="programming">Hobbies</option>    
-          <option value="programming">Aviation</option>  
-          <option value="programming">United States</option>    
-          <option value="programming">China</option>  
-          <option value="programming">Star Wars</option>    
-          <option value="programming">AI & Data Science</option>    
-          <option value="programming">Podcasts</option>  
-          <option value="programming">TV & Film</option>  
-          <option value="programming">Hinduism</option>    
-          <option value="programming">Christianity</option>  
-          <option value="programming">Other</option>    
-          <option value="programming">Judaism</option>  
-          <option value="programming">Buddhism</option>    
-          <option value="programming">Islam</option>    
-          <option value="programming">Spirituality</option>  
-          <option value="programming">Religion & Spirituality</option>      
-          <option value="programming">Sports & Recreation</option>
-          <option value="programming">Professional</option> 
-          <option value="programming">Outdoor</option>  
-          <option value="programming">College & High School</option> 
-          <option value="programming">Amateur</option> 
-          <option value="programming">Games & Hobbies</option> 
-          <option value="programming">Health</option> 
-          <option value="programming">Fitness & Nutrition</option> 
-          <option value="programming">Self-Help</option>  
-          <option value="programming">Alternative Health</option>  
-          <option value="programming">Sexuality</option>  
-          <option value="programming">Business</option>  
-          <option value="programming">Careers</option>  
-          <option value="programming">Business News</option>  
-          <option value="programming">Shopping</option>
-          <option value="programming">Management & Marketing</option>
-          <option value="programming">Investing</option>
-          <option value="programming">News & Politics</option>
-          <option value="programming">Arts</option>
-          <option value="programming">Performing Arts</option>
-          <option value="programming">Food</option>
-          <option value="programming">Visual Arts</option>
-          <option value="programming">Literature</option> 
-          <option value="programming">Design</option>
-          <option value="programming">Fashion & Beauty</option>
-          <option value="programming">Science & Medicine</option>
-          <option value="programming">Social Sciences</option>
-          <option value="programming">Medicine</option>
-          <option value="programming">Natural Sciences</option>
-          <option value="programming">Education</option>
-          <option value="programming">Educational Technology</option>
-          <option value="programming">Higher Education</option>
-          <option value="programming">K-12</option> 
-          <option value="programming">Training</option> 
-          <option value="programming">Language Courses</option> 
-          <option value="programming">Government & Organizations</option> 
-          <option value="programming">Local</option> 
-          <option value="programming">Crypto & Blockchain</option>
-          <option value="programming">True Crime</option>
-          <option value="programming">Non-Profit</option>
-          <option value="programming">Regional</option>
-          <option value="programming">Regional</option>
-            National
-            Society & Culture
-            Places & Travel
-            Personal Journals
-            Philosophy
-            Software How-To
-            Podcasting
-            Gadgets
-            Tech News
-            Kids & Family
-            Comedy
-            Music
-            New York
-            Star Trek
-            Apple
-            History
-            NBA
-            Technology
-            Audio Drama
-            Fiction
-            Sales
-          <option value="volvo">Volvo</option>
-          <option value="saab">Saab</option>
-          <option value="fiat">Fiat</option>
-          <option value="audi">Audi</option>
+          
+          <div className="form-group">
+          <label for="exampleFormControlSelect1">Pick a Genre</label>
+          <select id="exampleFormControlSelect1" className="form-control" name="genre" onChange={this.setGenre}>
+          <option value="139" selected="true">VR & AR</option>
+          <option value="140">Web Design</option> 
+          <option value="141">Golf</option>  
+          <option value="142">English Learning</option>
+          <option value="143">Programming</option>
+          <option value="144">Personal Finance</option> 
+          <option value="145">Parenting</option>  
+          <option value="146">LGBTQ</option>  
+          <option value="147">SEO</option> 
+          <option value="148">American History</option>  
+          <option value="149">Venture Capital</option>    
+          <option value="138">Movie</option>  
+          <option value="150">Chinese History</option>    
+          <option value="151">Locally Focused</option>  
+          <option value="154">San Francisco Bay Area</option>   
+          <option value="155">Denver</option>   
+          <option value="157">Startup</option>  
+          <option value="158">NFL</option>    
+          <option value="159">Harry Potter</option> 
+          <option value="162">Game of Thrones</option>  
+          <option value="165">Storytelling</option> 
+          <option value="166">YouTube</option>  
+          <option value="83">Other Games</option>   
+          <option value="84">Automotive</option>   
+          <option value="85">Video Games</option>   
+          <option value="86">Hobbies</option>    
+          <option value="87">Aviation</option>  
+          <option value="152">United States</option>    
+          <option value="156">China</option>  
+          <option value="160">Star Wars</option>    
+          <option value="163">AI & Data Science</option>    
+          <option value="67">Podcasts</option>  
+          <option value="68">TV & Film</option>  
+          <option value="69">Hinduism</option>    
+          <option value="70">Christianity</option>  
+          <option value="71">Other</option>    
+          <option value="72">Judaism</option>  
+          <option value="73">Buddhism</option>    
+          <option value="74">Islam</option>    
+          <option value="75">Spirituality</option>  
+          <option value="76">Religion & Spirituality</option>      
+          <option value="77">Sports & Recreation</option>
+          <option value="78">Professional</option> 
+          <option value="79">Outdoor</option>  
+          <option value="80">College & High School</option> 
+          <option value="81">Amateur</option> 
+          <option value="82">Games & Hobbies</option> 
+          <option value="88">Health</option> 
+          <option value="89">Fitness & Nutrition</option> 
+          <option value="90">Self-Help</option>  
+          <option value="91">Alternative Health</option>  
+          <option value="92">Sexuality</option>  
+          <option value="93">Business</option>  
+          <option value="94">Careers</option>  
+          <option value="95">Business News</option>  
+          <option value="96">Shopping</option>
+          <option value="97">Management & Marketing</option>
+          <option value="98">Investing</option>
+          <option value="99">News & Politics</option>
+          <option value="100">Arts</option>
+          <option value="101">Performing Arts</option>
+          <option value="102">Food</option>
+          <option value="103">Visual Arts</option>
+          <option value="104">Literature</option> 
+          <option value="105">Design</option>
+          <option value="106">Fashion & Beauty</option>
+          <option value="107">Science & Medicine</option>
+          <option value="108">Social Sciences</option>
+          <option value="109">Medicine</option>
+          <option value="110">Natural Sciences</option>
+          <option value="111">Education</option>
+          <option value="112">Educational Technology</option>
+          <option value="113">Higher Education</option>
+          <option value="114">K-12</option> 
+          <option value="115">Training</option> 
+          <option value="116">Language Courses</option> 
+          <option value="117">Government & Organizations</option> 
+          <option value="118">Local</option> 
+          <option value="136">Crypto & Blockchain</option>
+          <option value="135">True Crime</option>
+          <option value="119">Non-Profit</option>
+          <option value="120">Regional</option>
+          <option value="121">National</option>
+          <option value="122">Society & Culture</option>
+          <option value="123">Places & Travel</option>
+          <option value="124">Personal Journals</option>
+          <option value="126">Philosophy</option>
+          <option value="128">Software How-To</option>
+          <option value="129">Podcasting</option>
+          <option value="130">Gadgets</option>
+          <option value="131">Tech News</option>
+          <option value="132">TKids & Family</option>
+          <option value="133">Comedy</option>
+          <option value="134">Music</option>
+          <option value="153">New York</option>
+          <option value="161">Star Trek</option>
+          <option value="164">Apple</option>
+          <option value="125">History</option>
+          <option value="137">NBA</option>
+          <option value="127">Technology</option>
+          <option value="167">Audio Drama</option>
+          <option value="168">Fiction</option>
+          <option value="169">Sales</option>
           </select>
-          <button type="submit">Submit</button>
+          </div>
+          <Link to="/podcasts"><button type="submit">Submit</button></Link>
         </form>
-        
         </div>
+
+        <Switch>
+
+      <Route exact path="/podcasts" render =  {props => 
+      <Podcasts
+      {...props}
+       podcastNamesProp = {this.state.genrePodNames}
+      
+      /> } />
+
+      <Route exact path="" />
+    
+      </Switch>
+
+
+
       </div>
     );
   }
