@@ -195,13 +195,13 @@ class App extends React.Component {
         {this.kanyeQuote()}
         </header>
         <div>
-        <form onSubmit={this.showWeeklyCommuteTimeInSeconds} >
+        <form onSubmit="/podcasts">
           
           <div className="form-group">
           <label for="exampleFormControlSelect1">Pick a Genre</label>
           <br />
           <select id="exampleFormControlSelect1" className="form-control" name="genre" onChange={this.setGenre}>
-          <option value="139" selected="true">VR & AR</option>
+          <option value="139" selected={true}>VR & AR</option>
           <option value="140">Web Design</option> 
           <option value="141">Golf</option>  
           <option value="142">English Learning</option>
