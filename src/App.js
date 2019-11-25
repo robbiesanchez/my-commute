@@ -4,7 +4,9 @@ import axios from 'axios';
 import genres from "./genres.json";
 // import bootstrap from 'bootstrap';
 import {Link, Route, Switch} from "react-router-dom";
-import Podcasts from "./Podcasts"
+import Podcasts from "./Podcasts";
+import PodcastDetail from "./PodcastDetail";
+import PodcastEpisodes from "./PodcastEpisodes"
 
 
 class App extends React.Component {
@@ -23,7 +25,9 @@ class App extends React.Component {
     genrePodIds: [],
     genrePodNames: [],
     genrePodPics: [],
-    genrePodLinks: []
+    genrePodLinks: [],
+    genrePodDescription: [],
+    genreName: ""
   }
   componentWillMount(){ //on load 
     this.getGenreIds()
@@ -31,8 +35,8 @@ class App extends React.Component {
   
   getGenreIds = () => { //get the json file and make a new array with just name 
     let genreIdsNew = []
-    this.state.allGenres.map((eachGenre,i) => {
-      genreIdsNew.push(eachGenre.id)
+    this.state.allGenres.map(eachGenre => {
+      return genreIdsNew.push(eachGenre.id)
     })
     this.setState({
       allGenreIds: genreIdsNew
@@ -72,6 +76,8 @@ class App extends React.Component {
           this.getSearchedGenreIds()
           this.getSearchedGenreNames()
           this.getSearchedGenrePics()
+          this.getSearchedGenreDescriptions()
+          this.getSearchedGenreLinks()
         console.log(res)
       }).catch(err=>console.error(err))
     }
@@ -93,6 +99,13 @@ class App extends React.Component {
       })
     }
 
+    // genre = () => {
+    //   let findTheIndex = this.state.allGenres.findIndex(name => name === this.state.genreId)
+    //   console.log(findTheIndex)
+    //   return this.state.allGenres.name[findTheIndex] 
+    //  }
+
+
 
     getSearchedGenreNames = () => {
       console.log(this.state.genrePods)
@@ -112,6 +125,47 @@ class App extends React.Component {
         console.log(copy)
       })
     }
+
+     
+    getSearchedGenreLinks = () => {
+      console.log(this.state.genrePods)
+      let copy = this.state.genrePods.map(each=>
+        each.listennotes_url
+        // console.log(each.id)
+        // eachId.id
+        // this.setState({
+        //     genrePodIds2: eachId.id
+        //   }
+        // )
+      )
+      
+      this.setState({
+        genrePodLinks: copy
+      },()=>{
+        console.log(copy)
+      })
+    }
+    
+
+    getSearchedGenreDescriptions = () => {
+      console.log(this.state.genrePods)
+      let copy = this.state.genrePods.map(each=>
+        each.description
+        // console.log(each.id)
+        // eachId.id
+        // this.setState({
+        //     genrePodIds2: eachId.id
+        //   }
+        // )
+      )
+      
+      this.setState({
+        genrePodDescription: copy
+      },()=>{
+        console.log(copy)
+      })
+    }
+
 
     getSearchedGenrePics = () => {
       console.log(this.state.genrePods)
@@ -175,14 +229,14 @@ class App extends React.Component {
 
   //   }
 
-  showWeeklyCommuteTimeInSeconds = (e) => {
-    e.preventDefault();
+  // showWeeklyCommuteTimeInSeconds = (e) => {
+  //   e.preventDefault();
     
-    this.setState({
-      commuteSeconds: this.state.commuteTime*60
-    }, () => {
-      console.log(this.state)})
-  }
+  //   this.setState({
+  //     commuteSeconds: this.state.commuteTime*60
+  //   }, () => {
+  //     console.log(this.state)})
+  // }
 
   
 
@@ -312,17 +366,25 @@ class App extends React.Component {
 
         <Switch>
 
-      <Route exact path="/podcasts" render =  {props => 
+      <Route exact path="/podcasts" component=  {props => 
       <Podcasts
       {...props}
        podcastNamesProp = {this.state.genrePodNames}
        podcastPicsProp = {this.state.genrePodPics}
-      //  podcastsProp = {this.state.genrePods}
-      
+       podcastsProp = {this.state.genrePods}
       /> } />
 
-      <Route exact path="" />
-    
+      <Route exact path="/podcasts/episodes/:id" component={(props) => <PodcastEpisodes {...props} />}/>
+
+      <Route exact path="/podcasts/:id" 
+          component={(props) => <PodcastDetail {...props} podcastId = {this.state.genrePodIds} podcastLink= {this.state.genrePodLinks} podcastName={this.state.genrePodNames} podcastPic={this.state.genrePodPics} podcastDescription={this.state.genrePodDescription} />
+      } />
+
+      <Route exact path="/" />
+
+      
+
+
       </Switch>
 
 
