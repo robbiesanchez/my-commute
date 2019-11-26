@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {Link,Route} from 'react-router-dom';
 import "./App.css";
 import axios from "axios";
-import PodcastEpisodes from "./PodcastEpisodes"
+import PodcastEpisodes from "./PodcastEpisodes";
+import {Container, Row, Col} from "react-bootstrap";
 
 
 export default class PodcastDetail extends Component {
@@ -43,26 +44,6 @@ export default class PodcastDetail extends Component {
     
 
 
-    // getEpisodes = () => {
-        
-    //     let searchValue = this.name()
-
-    //     let newSearchValue = encodeURIComponent(searchValue)
-
-    //     return (
-    //         axios.get(`https://listen-api.listennotes.com/api/v2/search?q=${newSearchValue}&sort_by_date=1&type=episode&len_max=${this.state.commuteTime}&language=English&safe_mode=0`, {headers: {
-    //             'X-ListenAPI-Key': 'f92e4a4b6c304ce4b3710775385e3efb'
-    //             }}).then(res=>{
-    //                 return(
-    //                     <PodcastEpisodes 
-    //                 episodeNames={res} />
-    //                 )
-    //             // console.log(res)
-    //           }).catch(err=>console.error(err))
-    //     )
-
-    // }
-   
 
    pic = () => {
     let findTheIndex = this.state.podcastName.findIndex(name => name === this.props.match.params.id)
@@ -90,7 +71,6 @@ export default class PodcastDetail extends Component {
 
    setCommuteTime = (e) => {
     e.preventDefault();
-
     this.setState({
         commuteTime: e.target.value,
         commuteSeconds: this.state.commuteTime*60
@@ -120,27 +100,43 @@ export default class PodcastDetail extends Component {
 
 
         return (
-            <div>
+            <React.Fragment>
+
+            <Container fluid={true} className="font">
+            <Row>
+            <Col className="pic-detail"> 
                 <img src={this.pic()} alt=""/>
-                <br />
-                <h3>{this.name()}</h3>
-                <br />
-                {this.des()}
-                <br />
-                <a href={this.link()}>Take a Listen</a>
-                <hr />
-                <form >
+            </Col>
+            </Row>
+            <Row>
+            <Col>
+            <h3><a className="pod-header" href={this.link()}>{this.name()}</a></h3>
+            </Col>
+            </Row>
+            <Row>
+            <Col className="description">
+            {this.des()}
+            <hr />
+            </Col>
+            </Row>
+            <Row>
+            <Col className="commute-form">
+            <form>
                 <h5>Want Commute friendly episodes?</h5>
-                <h5>Daily Commute Time in Minutes:</h5>
-                <input type="number" value={this.commuteTime} onChange={this.setCommuteTime} />
-                <Link to={`/podcasts/episodes/${this.name()}`}><button type="submit" >Submit</button></Link>
+                <h6>Daily Commute Time (in Minutes):</h6>
+                <input type="number" value={this.props.time} onChange={this.setCommuteTime} />
+                <Link className="sub-button" to={`/podcasts/episodes/${this.name()}`}><button onClick={()=>this.props.sendCommute(this.state.commuteTime)} type="submit">Submit</button></Link>
                 </form>
+            </Col>
+            </Row>
+                
 
                 <Route exact path='/podcasts/episodes/:id'
           component={(props) => <PodcastEpisodes {...props} commuteTime={this.state.commuteTime} />
       } />
 
-            </div>
+            </Container>
+            </React.Fragment>
         )
     }
 }

@@ -2,14 +2,17 @@
   text-align: center;
 }
 
+*{
+  transition: all .2s;
+}
 
 
 .App-header {
   background-color: #282c34;
-  /* background-image: url("https://i.redd.it/05h3fy58p88y.jpg"); */
-  background-repeat: no-repeat;
-  background-size: cover;
+  background-image: url("street.png");
+  background-size: contain;
   min-height: 100vh;
+  height: 180px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,11 +20,17 @@
   font-size: calc(10px + 2vmin);
   color: white;
   min-height: 20px;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 .link {
   text-decoration: none;
   color: white;
+}
+
+.font {
+  font-family: 'Ubuntu', sans-serif;
+  background-color: rgb(191, 253, 237)
 }
 
 form {
@@ -34,6 +43,94 @@ li {
   color: black;
 }
 
-img {
-  width: 150px;
+.pic-detail img {
+  width: 200px;
+  border: 2px black solid;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  width: 100vw;
+}
+
+.logo {
+  width: 200px
+}
+
+.pick-genre {
+  display: flex;
+  justify-content: center;
+}
+
+.select-form {
+  display: flex;
+  justify-content: center;
+  width: 40vw;
+  height: 40px
+}
+
+.landing {
+  background-color: black;
+}
+
+.button-color {
+  background-color: rgb(191, 253, 237);
+  border: black;
+}
+
+.button-align {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.pod-header {
+  margin-top: 20px;
+  font-weight: 1000 !important;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: black;
+}
+
+.pod-row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.pod-names {
+  color: black;
+  display: flex;
+  justify-content: center;
+}
+
+.pic-detail {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+.description {
+  margin-left: 30px;
+  margin-right: 30px
+}
+
+.commute-form {
+  display: flex;
+  justify-content: center;
+}
+
+.kanye {
+  margin-top: 500px;
+  font-size: 15px;
+  color: rgb(191, 253, 237);
+}
+
+.sub-button {
+  margin-left: 70px
+}
+
+.App-header.new-height {
+  height: 100vh;
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {Link} from "react-router-dom"
+import {Link} from "react-router-dom";
+import {Container, Row, Col} from "react-bootstrap"
 
 export default class PodcastEpisodes extends Component {
     
@@ -8,14 +9,20 @@ export default class PodcastEpisodes extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            commuteTime: 60,
-            episodeInfo: []
+            // commuteTime: 60,
+            episodeInfo: [],
+            minutes: []
         }
     }
 
     componentDidMount() {
+        // this.setState({
+        //     commuteTime:this.props.time
+        // })
         this.getEpisodes()
     }
+
+    
 
     getEpisodes = () => {
         
@@ -23,8 +30,10 @@ export default class PodcastEpisodes extends Component {
 
         let newSearchValue = encodeURIComponent(searchValue)
 
+        let commuteTime = this.props.time || 60
+
         return (
-            axios.get(`https://listen-api.listennotes.com/api/v2/search?q=${newSearchValue}&sort_by_date=1&type=episode&len_max=${this.state.commuteTime}&language=English&safe_mode=0`, {headers: {
+            axios.get(`https://listen-api.listennotes.com/api/v2/search?q=${newSearchValue}&sort_by_date=1&type=episode&len_max=${commuteTime}&language=English&safe_mode=0`, {headers: {
                 'X-ListenAPI-Key': 'f92e4a4b6c304ce4b3710775385e3efb'
                 }}).then(res=>{
 
@@ -33,9 +42,18 @@ export default class PodcastEpisodes extends Component {
                     episodeInfo: res.data.results
                 })
 
+                this.convertMinutes();
+
               }).catch(err=>console.error(err))
         )
+        
+    }
 
+    convertMinutes = () => {
+
+        this.setState({
+            minutes: [this.state.episodeInfo.audio_length_sec / 60]
+        })
     }
 
     showEpisodeNames = () => {
@@ -45,26 +63,44 @@ export default class PodcastEpisodes extends Component {
             console.log(eachName)
                 return(
                     <li key={i}>
-                    <a href={eachName.audio}>{eachName.title_original}</a>
+                    <a className="pod-names" href={eachName.audio}>{eachName.title_original} {this.state.minutes}</a>
+                    <hr />
                     </li>
                 )
                  } ))
     }
+
+   
    
     
     render() {
 
         console.log(this.props.match.params.id)
 
-        console.log(this.props)
+        console.log(this.props);
 
+        console.log(this.state.commuteTime)
 
         return (
-            <div>
+            <React.Fragment>
+            <Container fluid={true} className="font">>
+            <Row>
+                <Col>
+                    <h4 className="pod-header">Episodes You Can Finish During Your Daily Commute</h4>
+                </Col>
+            </Row>
+
+            <Row>
+                <Col>
                 <ul>
                 {this.showEpisodeNames()}
                 </ul>
-            </div>
+                </Col>
+            </Row>
+                
+            </Container>
+            </React.Fragment>
+            
         )
     }
 }
