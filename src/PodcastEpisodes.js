@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
-import axios from 'axios'
+import axios from 'axios';
+import {Link} from "react-router-dom"
 
 export default class PodcastEpisodes extends Component {
     
 
-    
+    constructor(props) {
+        super(props)
+        this.state = {
+            commuteTime: 60,
+            episodeInfo: []
+        }
+    }
+
+    componentDidMount() {
+        this.getEpisodes()
+    }
 
     getEpisodes = () => {
         
@@ -17,21 +28,42 @@ export default class PodcastEpisodes extends Component {
                 'X-ListenAPI-Key': 'f92e4a4b6c304ce4b3710775385e3efb'
                 }}).then(res=>{
 
-                console.log(res)
+                console.log(res.data.results)
+                this.setState({
+                    episodeInfo: res.data.results
+                })
+
               }).catch(err=>console.error(err))
         )
 
+    }
+
+    showEpisodeNames = () => {
+        console.log("Showing episodes")
+        console.log(this.state.episodeInfo)
+        return (this.state.episodeInfo.map((eachName,i) => {
+            console.log(eachName)
+                return(
+                    <li key={i}>
+                    <a href={eachName.audio}>{eachName.title_original}</a>
+                    </li>
+                )
+                 } ))
     }
    
     
     render() {
 
         console.log(this.props.match.params.id)
-        
+
         console.log(this.props)
+
+
         return (
             <div>
-                {this.getEpisodes()}
+                <ul>
+                {this.showEpisodeNames()}
+                </ul>
             </div>
         )
     }

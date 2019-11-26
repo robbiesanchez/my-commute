@@ -95,18 +95,26 @@ export default class PodcastDetail extends Component {
         commuteTime: e.target.value,
         commuteSeconds: this.state.commuteTime*60
     }, () => {
-        console.log(this.state)})
+        console.log(this.state)}
+        )
+
+    let passProps = () => {
+            return (
+            <PodcastEpisodes commuteTime={this.state.commuteTime} />
+            )
+        }
+
+    return passProps()
+    
 }
 
-
-
-    
     
     render() {
 
             console.log(this.props.match.params.id) //USA
             console.log(this.props)
 
+            
         
         //   console.log(this.findTheIndex)
 
@@ -121,13 +129,16 @@ export default class PodcastDetail extends Component {
                 <br />
                 <a href={this.link()}>Take a Listen</a>
                 <hr />
-                <form>
+                <form >
                 <h5>Want Commute friendly episodes?</h5>
                 <h5>Daily Commute Time in Minutes:</h5>
                 <input type="number" value={this.commuteTime} onChange={this.setCommuteTime} />
-                <Link to={`/podcasts/episodes/${this.id()}`}><button type="submit" >Submit</button></Link>
+                <Link to={`/podcasts/episodes/${this.name()}`}><button type="submit" >Submit</button></Link>
                 </form>
 
+                <Route exact path='/podcasts/episodes/:id'
+          component={(props) => <PodcastEpisodes {...props} commuteTime={this.state.commuteTime} />
+      } />
 
             </div>
         )
