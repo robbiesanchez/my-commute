@@ -63,7 +63,7 @@ export default class PodcastEpisodes extends Component {
             console.log(eachName)
                 return(
                     <li key={i}>
-                    <a className="pod-names" href={eachName.audio}>{eachName.title_original} {this.state.minutes}</a>
+                    <a className="pod-names" href={eachName.audio}>{eachName.title_original} </a>
                     <hr />
                     </li>
                 )
