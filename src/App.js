@@ -29,6 +29,7 @@ class App extends React.Component {
     genrePodPics: [],
     genrePodLinks: [],
     genrePodDescription: [],
+    genrePodProducers: [],
     genreName: "",
     landing:true,
     time: 60
@@ -95,6 +96,7 @@ class App extends React.Component {
           this.getSearchedGenrePics()
           this.getSearchedGenreDescriptions()
           this.getSearchedGenreLinks()
+          this.getSearchedGenreProducers()
         console.log(res)
       }).catch(err=>console.error(err))
     }
@@ -107,6 +109,17 @@ class App extends React.Component {
       
       this.setState({
         genrePodIds: copy
+      })
+    }
+
+    getSearchedGenreProducers = () => {
+      console.log(this.state.genrePods)
+      let copy = this.state.genrePods.map(each=>
+        each.publisher
+      )
+      
+      this.setState({
+        genrePodProducers: copy
       })
     }
 
@@ -378,6 +391,7 @@ class App extends React.Component {
        podcastNamesProp = {this.state.genrePodNames}
        podcastPicsProp = {this.state.genrePodPics}
        podcastsProp = {this.state.genrePods}
+       podcastProducersProps = {this.state.genrePodProducers}
       /> } />
 
       <Route exact path="/podcasts/episodes/:id" component={(props) => <PodcastEpisodes {...props} time={this.state.time} />}/>

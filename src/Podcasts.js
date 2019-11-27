@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import "./App.css";
 import {Link, Route} from "react-router-dom";
-import axios from "axios";
 import PodcastDetail from './PodcastDetail';
 import { Container, Row, Col } from "react-bootstrap";
 
@@ -19,8 +18,9 @@ export default class Podcasts extends Component {
             commuteTime: 0,
             commuteSeconds: 0,
             podcastsIds: props.podcastIdsProps,
-            podcastEpisodes: []
-            // podcasts: props.podcastsProp
+            podcastEpisodes: [],
+            podcastProducers: props.podcastProducersProps,
+            podcasts: props.podcastsProp
         }
     }
 
@@ -29,6 +29,35 @@ export default class Podcasts extends Component {
         console.log("Showing podcasts")
         console.log(this.state.podcastsNames)
         return (this.state.podcastsNames.map((eachName,i) => {
+            console.log(eachName)
+                return(
+                    <li key={i}>
+                    <Link className="pod-names" to={`/podcasts/${eachName}`}>{eachName}</Link>
+                    <hr />
+                    </li>
+                )
+                 } ))
+    }
+
+    showPodcasts = () => {
+        console.log("Showing podcasts")
+        console.log(this.state.podcasts)
+        return (this.state.podcasts.map((eachName,i) => {
+            console.log(eachName)
+                return(
+                    <li key={i}>
+                    <Link className="pod-names" to={`/podcasts/${eachName.title}`}>{eachName.title} <br/> By {eachName.publisher}</Link>
+                    <hr />
+                    </li>
+                )
+                 } ))
+    }
+
+
+    showPodcastProducers = () => {
+        console.log("Showing podcasts")
+        console.log(this.state.podcastProducers)
+        return (this.state.podcastProducers.map((eachName,i) => {
             console.log(eachName)
                 return(
                     <li key={i}>
@@ -55,10 +84,11 @@ export default class Podcasts extends Component {
             <Col></Col> 
             </Row>
             <Row>
-            <Col >
-            <ul>
-            {this.showPodcastNames()}
-            </ul>
+            <Col>
+                <ul>
+                    {/* {this.showPodcastNames()} */}
+                    {this.showPodcasts()}
+                </ul>
             </Col>
             </Row>
 

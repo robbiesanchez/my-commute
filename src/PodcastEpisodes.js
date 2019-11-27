@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {Link} from "react-router-dom";
-import {Container, Row, Col} from "react-bootstrap"
+import {Container, Row, Col} from "react-bootstrap";
 
 export default class PodcastEpisodes extends Component {
     
@@ -11,7 +10,7 @@ export default class PodcastEpisodes extends Component {
         this.state = {
             // commuteTime: 60,
             episodeInfo: [],
-            minutes: []
+            minutes: [],
         }
     }
 
@@ -19,7 +18,7 @@ export default class PodcastEpisodes extends Component {
         // this.setState({
         //     commuteTime:this.props.time
         // })
-        this.getEpisodes()
+        this.getEpisodes();
     }
 
     
@@ -42,28 +41,27 @@ export default class PodcastEpisodes extends Component {
                     episodeInfo: res.data.results
                 })
 
-                this.convertMinutes();
 
               }).catch(err=>console.error(err))
         )
         
     }
 
-    convertMinutes = () => {
+  
 
-        this.setState({
-            minutes: [this.state.episodeInfo.audio_length_sec / 60]
-        })
-    }
 
     showEpisodeNames = () => {
         console.log("Showing episodes")
+        console.log(this.state.episodeInfo.audio_length_sec)
         console.log(this.state.episodeInfo)
+        
         return (this.state.episodeInfo.map((eachName,i) => {
             console.log(eachName)
+            let newTime = (eachName.audio_length_sec / 60).toFixed(0)
+            console.log(newTime)
                 return(
                     <li key={i}>
-                    <a className="pod-names" href={eachName.audio}>{eachName.title_original} </a>
+                    <a className="pod-names" href={eachName.audio}>{eachName.title_original} <br />Length: {newTime} minutes </a>
                     <hr />
                     </li>
                 )
@@ -93,7 +91,7 @@ export default class PodcastEpisodes extends Component {
             <Row>
                 <Col>
                 <ul>
-                {this.showEpisodeNames()}
+                     {this.showEpisodeNames()}
                 </ul>
                 </Col>
             </Row>
