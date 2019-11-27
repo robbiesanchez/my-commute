@@ -107,16 +107,9 @@ export default class PodcastDetail extends Component {
             <Col className="pic-detail"> 
                 <img src={this.pic()} alt=""/>
             </Col>
-            </Row>
-            <Row>
             <Col>
-            <h3><a className="pod-header" href={this.link()}>{this.name()}</a></h3>
-            </Col>
-            </Row>
-            <Row>
-            <Col className="description">
-            {this.des()}
-            <hr />
+            <h3><a className="pod-header2" href={this.link()}>{this.name()}</a></h3><br />
+            <div className="description">{this.des()}</div>
             </Col>
             </Row>
             <Row>
