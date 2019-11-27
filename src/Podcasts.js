@@ -25,19 +25,19 @@ export default class Podcasts extends Component {
     }
 
 
-    showPodcastNames = () => {
-        console.log("Showing podcasts")
-        console.log(this.state.podcastsNames)
-        return (this.state.podcastsNames.map((eachName,i) => {
-            console.log(eachName)
-                return(
-                    <li key={i}>
-                    <Link className="pod-names" to={`/podcasts/${eachName}`}>{eachName}</Link>
-                    <hr />
-                    </li>
-                )
-                 } ))
-    }
+    // showPodcastNames = () => {
+    //     console.log("Showing podcasts")
+    //     console.log(this.state.podcastsNames)
+    //     return (this.state.podcastsNames.map((eachName,i) => {
+    //         console.log(eachName)
+    //             return(
+    //                 <li key={i}>
+    //                 <Link className="pod-names" to={`/podcasts/${eachName}`}>{eachName}</Link>
+    //                 <hr />
+    //                 </li>
+    //             )
+    //              } ))
+    // }
 
     showPodcasts = () => {
         console.log("Showing podcasts")
@@ -54,19 +54,19 @@ export default class Podcasts extends Component {
     }
 
 
-    showPodcastProducers = () => {
-        console.log("Showing podcasts")
-        console.log(this.state.podcastProducers)
-        return (this.state.podcastProducers.map((eachName,i) => {
-            console.log(eachName)
-                return(
-                    <li key={i}>
-                    <Link className="pod-names" to={`/podcasts/${eachName}`}>{eachName}</Link>
-                    <hr />
-                    </li>
-                )
-                 } ))
-    }
+    // showPodcastProducers = () => {
+    //     console.log("Showing podcasts")
+    //     console.log(this.state.podcastProducers)
+    //     return (this.state.podcastProducers.map((eachName,i) => {
+    //         console.log(eachName)
+    //             return(
+    //                 <li key={i}>
+    //                 <Link className="pod-names" to={`/podcasts/${eachName}`}>{eachName}</Link>
+    //                 <hr />
+    //                 </li>
+    //             )
+    //              } ))
+    // }
 
 
     
@@ -81,12 +81,11 @@ export default class Podcasts extends Component {
             <Col xs={6} >
             <h3 className="pod-header">Top Rated Podcasts</h3>
             </Col>
-            <Col></Col> 
+            <Col></Col>
             </Row>
             <Row>
-            <Col>
-                <ul>
-                    {/* {this.showPodcastNames()} */}
+            <Col className="pod-names" >
+                <ul >
                     {this.showPodcasts()}
                 </ul>
             </Col>

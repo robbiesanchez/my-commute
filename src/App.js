@@ -259,11 +259,11 @@ class App extends React.Component {
       <Container fluid={true} className={"App-header " + (this.state.landing ? 'new-height' : '')}>
           <Row>
             <Col>
-              <Link to="/" ><img className="logo" src="./images/logo.png" alt="My Commute Pods"/></Link>
+              <Link to="/" onClick={() => this.setState({landing:true})}><img className="logo" src="./images/logo.png" alt="My Commute Pods"/></Link>
             </Col>
             <Col xs={6}>
               <form onSubmit="/podcasts" >
-                <div >
+                <div>
                 <label className="pick-genre"><h4>Pick a Genre</h4></label>
                 <select className="select-form" name="genre" onChange={this.setGenre}>
                 <option value="139" selected={true}>VR & AR</option>
@@ -373,10 +373,16 @@ class App extends React.Component {
               </div>  
               <Link to="/podcasts" className= "button-align" ><button className="button-color" onClick={() => this.setState({landing:false})} type="submit">Search</button></Link>
               </form>
+              
             </Col>
-            <Col className="kanye">
+            <Col>
+            <a href="https://www.linkedin.com/in/rfsanchez004/" ><img className="logo2" src="./images/logo2.png" alt="My Commute Pods"/></a>
+            </Col>
+            <Row>
+              <Col className="kanye">
               {this.kanyeQuote()}
-            </Col>
+              </Col>
+            </Row>
 
 
           </Row>
