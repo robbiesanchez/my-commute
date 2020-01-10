@@ -264,6 +264,7 @@ class App extends React.Component {
             <Col xs={6}>
               <form onSubmit="/podcasts" >
                 <div>
+                <Link to="/about" onClick={() => this.setState({landing:true})}> About My Commute Pods</Link>
                 <label className="pick-genre"><h4>Pick a Genre</h4></label>
                 <select className="select-form" name="genre" onChange={this.setGenre}>
                 <option value="139" selected={true}>VR & AR</option>
