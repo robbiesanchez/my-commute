@@ -81,7 +81,7 @@ class App extends React.Component {
 
   
 
-
+// About Page
   
   getGenre = () => {
     axios.get(`https://listen-api.listennotes.com/api/v2/best_podcasts?genre_id=${this.state.genreId}&page=1&region=us&safe_mode=0`, {headers: {
